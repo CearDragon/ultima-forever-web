@@ -4,13 +4,13 @@ This is a static site built with Node.js. Node 20 or newer is required.
 
 ```sh
 npm ci
-npm start
+npm run dev
 ```
 
-Open `http://localhost:3000`. To build without starting the preview, run `npm run build`. Run `npm test` to check the build output.
+Open `http://localhost:3001`. The development server serves the source files and automatically reloads open pages when HTML, CSS, JavaScript, or image files change. To build without starting the preview, run `npm run build`; run `npm test` to check the build output. `npm start` builds the static site and serves the production output at `http://localhost:3000` without live reload.
 
 ## Azure Static Web Apps
 
-Configure the deployment with **App location** `/`, **App build command** `npm run build`, and **Output location** `dist`. No API location is needed. Azure serves the generated files directly; it does not run the Node preview server.
+The GitHub Actions workflow installs Node.js 22, runs `npm ci` and `npm run build`, then uploads the prebuilt `dist` directory with Azure Static Web Apps' build step skipped. No API location is needed. Azure serves the generated files directly; it does not run the Node preview server.
 
-The site includes historical content and some images hosted by the Internet Archive, so those resources depend on that service being available.
+All website images are shipped in the local `images` directory and copied into the generated `dist` site.

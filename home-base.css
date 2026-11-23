@@ -1,6 +1,6 @@
 body {
     text-align: center;
-    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/UP_background-repeat.jpg);
+    background-image: url(images/UP_background.jpg);
     background-position: center;
     background-repeat: repeat-x;
     background-color: #202621;
@@ -22,7 +22,7 @@ body {
     width: 100%;
     height: 1295px;
     z-index: 1;
-    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/UP_background.jpg);
+    background-image: url(images/UP_background.jpg);
     background-repeat: no-repeat;
     background-position: center;
     margin: 31px 0 0;
