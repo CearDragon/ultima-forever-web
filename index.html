@@ -1,0 +1,879 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<script type="text/javascript">
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-23534808-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+
+<script type="text/javascript">
+    function verifyEmail(email){
+        var emailRegEx = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+            if (email.search(emailRegEx) == -1) {
+                return false;
+            }
+            return true;
+    }
+
+    function checkAge()
+    {
+            /* the minumum age you want to allow in */
+            var min_age = 13;
+
+            /* change "age_form" to whatever your form has for a name="..." */
+            var year = parseInt(document.getElementById("birthyear").value);
+            var month = parseInt(document.getElementById("month").value) - 1;
+            var day = parseInt(document.getElementById("day").value);
+
+            var theirDate = new Date((year + min_age), month, day);
+            var today = new Date;
+
+            if ( (today.getTime() - theirDate.getTime()) < 0) {
+                    alert("Sorry , you are not eligible to participate in this activity.");
+                    return false;
+            }
+            else {
+                    return true;
+            }
+    }
+
+    function fieldCheck()
+    {
+
+        var EULA = document.getElementById("eula");
+        var TOS = document.getElementById("P_TOS");
+        var email = document.getElementById("email").value;
+        var country = document.getElementById("Country").value;
+
+        if(EULA.checked == false)
+        {
+            alert("Please confirm that you have read the EULA.");
+            return false;
+
+        }
+
+
+        if(TOS.checked == false)
+        {
+            alert("Please confirm that you have read EA's Privacy Policy & Terms of Service.");
+            return false;
+
+        }
+
+
+        if(!verifyEmail(email))
+        {
+            alert("Please enter a valid email address.");
+            return false;
+
+        }
+
+        if(country.length == 0)
+        {
+            alert("Please enter country.");
+            return false;
+
+        }
+
+        return true;
+
+
+    }
+
+    function dl()
+    {
+        if(!checkAge())
+        {
+            return false;
+        }
+        if(fieldCheck() == false)
+        {
+            return false;
+        }
+
+        document.forms[0].submit();
+
+
+    }
+
+
+</script>
+
+
+
+
+
+<title>Ultima Forever: the Ultima IV download page</title>
+
+<style type="text/css">
+
+<!--
+body {
+    text-align: center;
+    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/UP_background-repeat.jpg);
+    background-position: center;
+    background-repeat: repeat-x;
+    background-color: #202621;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+#master {
+    width: 1024px;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    left: auto;
+    top: 57px;
+    z-index: 2;
+}
+#background {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:1295px;
+    z-index:1;
+    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/UP_background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 31px 0 0 0;
+}
+#window {
+    position:absolute;
+    left:-264px;
+    top:31px;
+    width:1551px;
+    height:330px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/UP_rohead_01.jpg);
+}
+#mainlogo {
+    position:absolute;
+    left:310px;
+    top:-42px;
+    width:389px;
+    height:163px;
+    z-index:5;
+    background-repeat: no-repeat;
+}
+#scroll {
+    position:absolute;
+    left:17px;
+    top:33px;
+    width:983px;
+    height:345px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/UP_rohead_scroll.jpg);
+}
+-->
+</style>
+<script type="text/javascript">
+<!--
+function MM_findObj(n, d) { //v4.01
+var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+if(!x && d.getElementById) x=d.getElementById(n); return x;
+}
+function MM_preloadImages() { //v3.0
+var d=document; if(d.images){ if(!d.MM_p) d.MM_p=new Array();
+var i,j=d.MM_p.length,a=MM_preloadImages.arguments; for(i=0; i<a.length; i++)
+if (a[i].indexOf("#")!=0){ d.MM_p[j]=new Image; d.MM_p[j++].src=a[i];}}
+}
+function MM_swapImgRestore() { //v3.0
+var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
+}
+function MM_swapImage() { //v3.0
+var i,j=0,x,a=MM_swapImage.arguments; document.MM_sr=new Array; for(i=0;i<(a.length-2);i+=3)
+if ((x=MM_findObj(a[i]))!=null){document.MM_sr[j++]=x; if(!x.oSrc) x.oSrc=x.src; x.src=a[i+2];}
+}
+//-->
+</script>
+<link href="UltimaPortal_Main.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+<!--
+a:link {
+    text-decoration: none;
+    color: #FC0;
+}
+a:visited {
+    text-decoration: none;
+    color: #FC0;
+}
+a:hover {
+    text-decoration: underline;
+    color: #FFF;
+}
+a:active {
+    text-decoration: none;
+}
+#welcome {
+    position:absolute;
+    left:815px;
+    top:371px;
+    width:481px;
+    height:34px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #FFF;
+    visibility: visible;
+}
+#ultima-lineup {
+    position:absolute;
+    left:-10px;
+    top:558px;
+    width:1026px;
+    height:133px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/Ultima-lineup.png);
+}
+#win-top {
+    position:absolute;
+    left:87px;
+    top:374px;
+    width:843px;
+    height:221px;
+    z-index:4;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/welcome-window.jpg);
+}
+#siteback-text {
+    position:absolute;
+    left:97px;
+    top:385px;
+    width:820px;
+    height:80px;
+    z-index:5;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#UOlink {
+    position:absolute;
+    left:2%;
+    top:4px;
+    width:335px;
+    height:24px;
+    z-index:5;
+    background-repeat: no-repeat;
+}
+#gnav {
+    left: 0;
+    top: 0;
+    position: fixed;
+    width: 100%;
+    z-index: 2000;
+    color: #fff;
+}
+#gnav .content {
+    padding: 16px 0;
+    width: 100%;
+    background-color: #000;
+    -moz-opacity:0.84;
+    -khtml-opacity: 0.84;
+    opacity: 0.84;
+}
+#Twitter-link {
+    position:absolute;
+    left:1200px;
+    top:2px;
+    width:27px;
+    height:27px;
+    z-index:5;
+    background-repeat: no-repeat;
+    visibility: hidden;
+}
+#Twitter-top {
+    position:absolute;
+    left:942px;
+    top:377px;
+    width:123px;
+    height:52px;
+    z-index:5;
+    background-repeat: no-repeat;
+}
+#win-UO {
+    position:absolute;
+    left:87px;
+    top:727px;
+    width:843px;
+    height:221px;
+    z-index:4;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/welcome-window.jpg);
+}
+#UO-box {
+    position:absolute;
+    left:711px;
+    top:20px;
+    width:189px;
+    height:300px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#UO-text {
+    position:absolute;
+    left:17px;
+    top:7px;
+    width:800px;
+    height:31px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#UO-text2 {
+    position:absolute;
+    left:17px;
+    top:28px;
+    width:683px;
+    height:99px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#UO-art {
+    position:absolute;
+    left:3px;
+    top:138px;
+    width:815px;
+    height:180px;
+    z-index:5;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/UO_art.png);
+}
+#win-spec {
+    position:absolute;
+    left:87px;
+    top:1085px;
+    width:843px;
+    height:403px;
+    z-index:4;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/U4_window.png);
+}
+#ultimaIV-box {
+    position:absolute;
+    left:-46px;
+    top:-40px;
+    width:236px;
+    height:388px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/U4_box2.png);
+}
+#spec-text {
+    position:absolute;
+    left:213px;
+    top:18px;
+    width:596px;
+    height:232px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#ultima-screen1 {
+    position:absolute;
+    left:265px;
+    top:298px;
+    width:203px;
+    height:150px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#gog_button {
+    position:absolute;
+    left:20px;
+    top:298px;
+    width:228px;
+    height:124px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+#ultima-screen2 {
+    position:absolute;
+    left:413px;
+    top:284px;
+    width:203px;
+    height:150px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#ultima-screen3 {
+    position:absolute;
+    left:629px;
+    top:284px;
+    width:203px;
+    height:150px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#win-download {
+    position:absolute;
+    left:87px;
+    top:1566px;
+    width:843px;
+    height:300px;
+    z-index:2;
+}
+
+#win-download-bg {
+    width:100%;
+    height:100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/opt-window.jpg);
+}
+#download-textheadline {
+    position:absolute;
+    left:282px;
+    top:-55px;
+    width:313px;
+    height:34px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#downloadbutton {
+    position:absolute;
+    left:611px;
+    top:112px;
+    width:211px;
+    height:52px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#downloadsep {
+    position:absolute;
+    left:289px;
+    top:56px;
+    width:3px;
+    height:184px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/sep1.jpg);
+}
+#downloadsep2 {
+    position:absolute;
+    left:580px;
+    top:56px;
+    width:3px;
+    height:184px;
+    z-index:6;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/sep1.jpg);
+}
+#download-DOSbox {
+    position:absolute;
+    left:615px;
+    top:169px;
+    width:200px;
+    height:40px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-eulacheck {
+    position:absolute;
+    left:316px;
+    top:18px;
+    width:15px;
+    height:15px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-optincheck-BioWare {
+    position:absolute;
+    left:316px;
+    top:66px;
+    width:15px;
+    height:15px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-optincheck-EA {
+    position:absolute;
+    left:316px;
+    top:104px;
+    width:15px;
+    height:15px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-optincheck-Privacy {
+    position:absolute;
+    left:316px;
+    top:136px;
+    width:15px;
+    height:15px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#eula-text {
+    position:absolute;
+    left:350px;
+    top:6px;
+    width:200px;
+    height:42px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#optin-text-BioWare {
+    position:absolute;
+    left:350px;
+    top:55px;
+    width:200px;
+    height:29px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#optin-text-EA {
+    position:absolute;
+    left:350px;
+    top:92px;
+    width:200px;
+    height:30px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#optin-text-Privacy {
+    position:absolute;
+    left:350px;
+    top:125px;
+    width:200px;
+    height:29px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#privacy-text {
+    position:absolute;
+    left:304px;
+    top:164px;
+    width:278px;
+    height:42px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#TOS-text {
+    position:absolute;
+    left:304px;
+    top:221px;
+    width:278px;
+    height:42px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#eastore-text {
+    position:absolute;
+    left:447px;
+    top:1957px;
+    width:135px;
+    height:25px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-email {
+    position:absolute;
+    left:17px;
+    top:86px;
+    width:252px;
+    height:23px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#language-text {
+    position:absolute;
+    left:13px;
+    top:111px;
+    width:135px;
+    height:25px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#dropbox-language {
+    position:absolute;
+    left:18px;
+    top:141px;
+    width:244px;
+    height:23px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-text3 {
+    position:absolute;
+    left:15px;
+    top:164px;
+    width:252px;
+    height:23px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-text2 {
+    position:absolute;
+    left:14px;
+    top:54px;
+    width:252px;
+    height:23px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-month {
+    position:absolute;
+    left:18px;
+    top:196px;
+    width:76px;
+    height:23px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-day {
+    position:absolute;
+    left:134px;
+    top:196px;
+    width:59px;
+    height:23px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#download-year {
+    position:absolute;
+    left:202px;
+    top:196px;
+    width:76px;
+    height:23px;
+    z-index:3;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#legal {
+    position:absolute;
+    left:217px;
+    top:1558px;
+    width:600px;
+    height:48px;
+    z-index:2;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#EAstorelogo {
+    position:absolute;
+    left:91px;
+    top:1682px;
+    width:182px;
+    height:72px;
+    z-index:1;
+    background-repeat: no-repeat;
+    background-position: center;
+    visibility: hidden;
+}
+#eamark {
+    position:absolute;
+    left:73px;
+    top:1618px;
+    width:135px;
+    height:150px;
+    z-index:1;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#BioWarelogo {
+    position:absolute;
+    left:724px;
+    top:1653px;
+    width:203px;
+    height:29px;
+    z-index:1;
+    background-repeat: no-repeat;
+    background-position: center;
+    visibility: visible;
+}
+-->
+</style>
+</head>
+
+<body onload="MM_preloadImages()">
+
+<form method="POST"  action="#" id="download" id="downloadform" onsubmit="return false" data-wayback-static="disabled">
+<div id="gnav">
+    <div class="content">
+    <div id="UOlink"><a href="http://www.uoherald.com/"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/UO_Link-gnav.png" alt="Play Ultima Online!" width="335" height="24" border="0" /></a></div> 
+    <div id="Twitter-link"><a href="http://twitter.com/ultimaforever"><img src="images/twitter-gnav.png" alt="Twitter!" width="27" height="27" border="0" /></a></div>  
+</div>
+</div>
+
+<div id="master">
+
+<div id="mainlogo"><img src="images/Ultima_logo-main2.png" width="389" height="163" alt="Ultima!" /></div>
+<div id="Twitter-top"><a href="https://x.com/CearDragon"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/twitter-top.png" alt="Twitter!" width="123" height="52" border="0" /></a></div>
+
+
+
+<div id="window"></div>
+<div id="scroll"></div>
+<div id="siteback-text">
+<table width="820" height="10">
+    <tr>
+    <td width="820"  align="center"><div align="center"><span class="storyHeadline">Welcome to Ultimaforever.com! A celebration of all things Ultima!</span><br />
+        <span class="storyBody"></span></div>
+        <p class="storyBody">Stretching across dozens of games and three decades' time, millions of people from all over the world have set out on great adventures in
+the world of Ultima. They have braved perilous dungeons, faced off against fearsome enemies, conquered lands and saved worlds.Ultimaforever.com has assembled a brief look at 30 years of Ultima heritage. Click the link below to learn more about Ultima!</p>
+    </td>
+    </tr>
+</table>
+<div class="learnmore" style="margin: -5px auto 0px auto; text-align: center; width: 311px; height: 52px;">
+<a href="ultima_history.html" title="Ultima History"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/but_LearnMore.png" /></a>
+</div>
+</div>
+
+
+
+<div id="ultima-lineup">
+<div style="width: 62px; height: 133px; float:left;"></div>
+<a href="ultima_history.html?tab=1" title="Ultima I" ><div style="width: 64px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=2" title="Ultima II: The Revenge of Enchantress"><div style="width: 61px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=3" title="Ultima III: Exodus"><div style="width: 63px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=4" title="Ultima IV: Quest for the Avatar"><div style="width: 61px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=5" title="Ultima V: Warriors of Destiny"><div style="width: 62px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=6" title="Ultima VI: The False Prophet"><div style="width: 63px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=7" title="Ultima Underworld: The Stygian Abyss"><div style="width: 67px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=8" title="Ultima VII: The Black Gate"><div style="width: 78px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=9" title="Ultima VII: The Forge of Virtue"><div style="width: 62px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=10" title="Ultima Underworld II: Labyrinth of Worlds"><div style="width: 62px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=11" title="Ultima VII Pt.2: Serpent Isle"><div style="width: 62px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=12" title="Ultima VII Pt.2: The Silver Seed"><div style="width: 63px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=13" title="Ultima VIII: Pagan"><div style="width: 61px; height: 133px; float:left;"></div></a>
+<a href="ultima_history.html?tab=14" title="Ultima IX: Ascension"><div style="width: 63px; height: 133px; float:left;"></div></a>
+</div>
+
+
+<div id="win-top"></div>
+<div id="win-UO">
+    <div id="UO-box"><a href="http://www.uoherald.com/legacy/trial/"><img src="images/UO_box-small.png" alt="Play UO for 14 days FREE!" width="189" height="300" border="0" /></a></div>
+    <div id="UO-art"></div>
+    <div id="UO-text">
+    <table width="800" height="10">
+        <tr>
+        <td width="800"  align="left"><div align="center"><span class="storyHeadline">Ultima Online: 14 Years and Going Strong!</span><br />
+        <span class="storyBody"></span></div>
+        </td>
+        </tr>
+    </table>
+    </div>
+    
+    <div id="UO-text2">
+    <table width="683" height="10">
+        <tr>
+        <td width="683"  align="left">
+        <p class="storyBody">In 1997 Ultima broke new ground once again. The launch of <a href="http://www.uoherald.com/">Ultima Online</a> gave the gaming world its first graphical Massively Multiplayer Online Role Playing Game. Since this historic launch, Ultima Online has run continuosly for 14 years! This is an achievement no other MMORPG has even approached.</p>
+        <p class="storyBody">In recognition of its impact on the gaming industry, Ultima Online was recently inducted into the Game Developer's Conference Online Awards Hall of Fame. <a href="http://www.uoherald.com/legacy/trial/">Click here to play it FREE for 14 Days!</a></p>
+        </td>
+        </tr>
+    </table>
+    </div>
+</div>
+
+
+<div id="win-spec">
+<div id="ultimaIV-box"></div>
+    <div id="spec-text">
+    <table width="600" height="10">
+        <tr>
+        <td width="600"  align="left"><div align="center"><span class="storyHeadline">Play the game that changed RPGs forever!<br/>Ultima IV is available for FREE!</span><br />
+        <span class="storyBody"></span></div>
+        <p class="storyBody">Having defeated the evil Mondain and his progeny in his previous 3 trips, the Stranger returns to Britannia and  endeavors to master each of the Virtues. In the process of meditating at shrines and questing through perilous dungeons, he seeks aid from seven great Companions. Together with these Companions, the Stranger braves the great Stygian Abyss, uncovers the Codex of Ultimate Wisdom and becomes the Avatar.</p>
+        <p class="storyBody">Released in 1985, Ultima IV was the first in the "Age of Enlightenment" period of Ultima games. It truly was a step forward in gaming, as it focused not on defeating some generic evil force with traditional "hack & slash" gameplay, but offered a story-driven quest based on ethical dilemmas presented to the player in an attempt to acheive enlightenment.            </p>
+        <p class="storyBody">Ultimaforever.com is pleased to officially offer the full, original PC version of Ultima IV for download. 
+        
+        What are you waiting for? The virtues await!</p>
+        </td>
+        </tr>
+    </table>
+</div>
+<div id="gog_button"><a href="http://www.gog.com/en/gamecard/ultima_4" target="_blank"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/but_PlayNow.png" alt="Ultima IV at GOG.com" width="228" height="124" border="0" /></a></div>
+<div id="ultima-screen1"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/U4_screens.png" alt="Ultima IV Screenshots" width="553" height="135" border="0" /></div>
+</div>
+
+
+
+
+<div id="eamark"><a href="http://www.ea.com/"><img src="images/footer_logo_ea.png" alt="EA" width="135" height="90" border="0" /></a></div>
+<div id="legal">
+<table width="600" height="10">
+    <tr>
+    <td width="600"  align="center"><p class="legalBody">© 2011 Electronic Arts Inc. All Rights Reserved.<br />
+        <a href="https://jobs.ea.com/">Jobs</a> | <a href="http://aboutus.ea.com/home.action">Corporate Info</a> | <a href="http://www.ea.com/2/legal-notices">Legal Notices</a> | <a href="http://www.ea.com/1/product-eulas">Product EULAs and Other Disclosures</a> | <a href="http://tos.ea.com/legalapp/WEBTERMS/US/en/PC/">Terms of Service</a> | <a href="http://tos.ea.com/legalapp/WEBPRIVACY/US/en/PC/">Privacy Policy</a></p>
+    </td>
+    </tr>
+</table></div>
+<div id="BioWarelogo"><a href="http://www.bioware.com/"><img src="images/BioWare_logo.png" alt="BioWare Homepage" width="203" height="29" border="0" /></a></div>
+<div id="EAstorelogo"><a href="http://eastore.ea.com/"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/ea_store.png" alt="EA Store" width="182" height="72" border="0" /></a></div>
+
+</div>
+
+<div id="background"></div>
+
+<!--end master-->
+</div>
+<input type="hidden" value="true" name="download">
+</form>
+
+
+
+
+
+
+
+</body>
+</html>
