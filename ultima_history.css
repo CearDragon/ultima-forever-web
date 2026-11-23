@@ -1,0 +1,51 @@
+* { box-sizing: border-box; }
+body {
+    margin: 0;
+    background: #202621;
+    color: #e8dcc0;
+    font: 16px/1.55 Georgia, serif;
+}
+.wrap {
+    max-width: 1024px;
+    margin: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+.masthead { order: -3; align-self: center; }
+.masthead img { display: block; max-width: 100%; height: auto; }
+.main-content {
+    order: -2;
+    border: 1px solid #806c46;
+    background: #151a16 url(images/UP_rohead_01.jpg) center top / auto 200px no-repeat;
+    box-shadow: 0 0 24px #101410;
+    padding: 10rem 2rem 2rem;
+}
+.tab-lock[hidden] { display: none; }
+.storybody { max-width: 720px; margin: auto; }
+.storyHeadline { color: #f0d091; font-size: 1.6rem; font-weight: bold; }
+.storySubheadwhite { color: #c3b18a; font-size: 1.1rem; }
+.rohead, .box, .ultima-lineup { display: none; }
+#tab-4 .box { display: block; width: 140px; height: 190px; margin: 1.5rem auto 0; background: url(images/U4_box2.png) center / contain no-repeat; }
+#tab-4 .box img { display: none; }
+.buttons { display: flex; justify-content: space-between; gap: 1rem; margin: 1rem 0; }
+button {
+    border: 1px solid #947747;
+    background: #34372a;
+    color: #f1dfb8;
+    padding: .6rem .9rem;
+    font: inherit;
+    cursor: pointer;
+}
+button:hover, button:focus-visible, button[aria-pressed="true"] { background: #735a33; color: #fff; }
+.history-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem; }
+.history-tabs button { font-size: .85rem; }
+.footer { margin-top: 2rem; padding-top: 6rem; background: url(images/Ultima-lineup.png) center top / contain no-repeat; text-align: center; color: #b6aa90; font-size: .8rem; }
+a { color: #e0c58c; }
+.logos { display: flex; justify-content: center; align-items: center; gap: 2rem; }
+.logos img { max-width: 120px; max-height: 60px; }
+@media (max-width: 600px) {
+    .wrap { padding: .75rem; }
+    .main-content { padding: 6rem 1rem 1.5rem; background-size: auto 120px; }
+    .storyHeadline { font-size: 1.3rem; }
+}

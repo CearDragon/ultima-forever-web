@@ -1,0 +1,60 @@
+body {
+    text-align: center;
+    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/UP_background-repeat.jpg);
+    background-position: center;
+    background-repeat: repeat-x;
+    background-color: #202621;
+    margin: 0;
+}
+#master {
+    width: 1024px;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    left: auto;
+    top: 57px;
+    z-index: 2;
+}
+#background {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 1295px;
+    z-index: 1;
+    background-image: url(https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/UP_background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 31px 0 0;
+}
+#window {
+    position: absolute;
+    left: -264px;
+    top: 31px;
+    width: 1551px;
+    height: 330px;
+    z-index: 3;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/UP_rohead_01.jpg);
+}
+#mainlogo {
+    position: absolute;
+    left: 310px;
+    top: -42px;
+    width: 389px;
+    height: 163px;
+    z-index: 5;
+    background-repeat: no-repeat;
+}
+#scroll {
+    position: absolute;
+    left: 17px;
+    top: 33px;
+    width: 983px;
+    height: 345px;
+    z-index: 3;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url(images/UP_rohead_scroll.jpg);
+}

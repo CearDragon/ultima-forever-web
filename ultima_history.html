@@ -1,75 +1,43 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="en">
 <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ultima Forever: the Ultima IV download page</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
-<link rel="stylesheet" type="text/css" href="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/style.css"/>
-<!--[if lte IE 7]>
-<style>
-.ie7 {
-display: block;
-}
-</style>
-<![endif]-->
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="ultima_history.css">
 <script type="text/javascript">
-//number of tabs
 var maxTabId = 14;
+var currTabId = 1;
 
-/* DONT CHANGE BELOW*/
-
-//store the current tab id, we use this to hide existing tabs
-var currTabId = 0;
-
-//show a tab
-function showTab(tabId)
-{
-	//if the tab we want isnt the current tab, fade out the old tab and set the current tab
-	if (currTabId != tabId)
-	{
-		$("#tab-" + currTabId).fadeOut("slow");
-		currTabId = tabId;
-	}
-	
-	//fade in the new tab
-	$("#tab-" + tabId).fadeIn("slow");
-	
-	//calculate the previous and next tab links
-	var prevTabId = currTabId - 1;
-	if (prevTabId <= 0)
-		prevTabId = maxTabId;
-	
-	var nextTabId = currTabId + 1;
-	if (nextTabId > maxTabId)
-		nextTabId = 1;
-		
-	//apply the previous and next tab links
-	$("#backward").attr("onclick", "javascript:showTab(" + prevTabId + ")");
-	$("#forward").attr("onclick", "javascript:showTab(" + nextTabId + ")");
+function showTab(tabId) {
+	if (!Number.isInteger(tabId) || tabId < 1 || tabId > maxTabId) tabId = 1;
+	currTabId = tabId;
+	document.querySelectorAll('.tab-lock').forEach(function (tab, index) {
+		tab.hidden = index + 1 !== tabId;
+	});
+	document.querySelectorAll('.history-tabs button').forEach(function (button, index) {
+		button.setAttribute('aria-pressed', index + 1 === tabId ? 'true' : 'false');
+	});
 }
 
-// Read a page's GET URL variables and return them as an associative array.
-function getUrlVars()
-{
-    var vars = [], hash;
-    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-    for(var i = 0; i < hashes.length; i++)
-    {
-        hash = hashes[i].split('=');
-        vars.push(hash[0]);
-        vars[hash[0]] = hash[1];
-    }
-    return vars;
-}
-
-//when the page has finished loading, check the tab paramater for the tab to show, otherwise show tab 1
-$(document).ready(function () {
-	var urlTab = getUrlVars()["tab"];
-	if (urlTab == null)
-		currTabId = 1;
-	else currTabId = parseInt(urlTab);
-
-	showTab(currTabId);
+document.addEventListener('DOMContentLoaded', function () {
+	var navigation = document.querySelector('.history-tabs');
+	document.querySelectorAll('.storyHeadline').forEach(function (headline, index) {
+		var button = document.createElement('button');
+		button.type = 'button';
+		button.textContent = headline.textContent;
+		button.setAttribute('aria-controls', 'tab-' + (index + 1));
+		button.addEventListener('click', function () { showTab(index + 1); });
+		navigation.appendChild(button);
+	});
+	document.getElementById('backward').addEventListener('click', function () {
+		showTab(currTabId === 1 ? maxTabId : currTabId - 1);
+	});
+	document.getElementById('forward').addEventListener('click', function () {
+		showTab(currTabId === maxTabId ? 1 : currTabId + 1);
+	});
+	var urlTab = new URLSearchParams(window.location.search).get('tab');
+	showTab(urlTab && /^\d+$/.test(urlTab) ? Number(urlTab) : 1);
 });
 </script>
 </head>
@@ -103,7 +71,7 @@ $(document).ready(function () {
 
 <!-- Second Tab -->
 <div class="tab-lock">	
-  <div id="tab-2" style="display:none;">
+  <div id="tab-2">
 	<div class="rohead rh2"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U2.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -121,7 +89,7 @@ $(document).ready(function () {
 	
 <!-- Third Tab -->
 <div class="tab-lock">
-  <div id="tab-3" style="display:none;">
+  <div id="tab-3">
 	<div class="rohead rh3"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U3.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -142,7 +110,7 @@ $(document).ready(function () {
 	
 <!-- Fourth Tab -->
 <div class="tab-lock">
-  <div id="tab-4" style="display:none;">
+  <div id="tab-4">
 	<div class="rohead rh4"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U4.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -161,7 +129,7 @@ $(document).ready(function () {
 	
 <!-- Fifth Tab -->
 <div class="tab-lock">
-  <div id="tab-5" style="display:none;">
+  <div id="tab-5">
 	<div class="rohead rh5"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U5.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -182,7 +150,7 @@ $(document).ready(function () {
 	
 <!-- Sixth Tab -->
 <div class="tab-lock">
-  <div id="tab-6" style="display:none;">
+  <div id="tab-6">
 	<div class="rohead rh6"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U6.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -201,7 +169,7 @@ $(document).ready(function () {
 
 <!-- Seventh Tab -->
 <div class="tab-lock">
-  <div id="tab-7" style="display:none;">
+  <div id="tab-7">
 	<div class="rohead rh7"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_UU.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -221,7 +189,7 @@ $(document).ready(function () {
 
 <!-- Eigth Tab -->
 <div class="tab-lock">
-  <div id="tab-8" style="display:none;">
+  <div id="tab-8">
 	<div class="rohead rh8"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U7-1.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -240,7 +208,7 @@ $(document).ready(function () {
 
 <!-- Ninth Tab -->
 <div class="tab-lock">
-  <div id="tab-9" style="display:none;">
+  <div id="tab-9">
 	<div class="rohead rh9"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U7-2.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -258,7 +226,7 @@ $(document).ready(function () {
 
 <!-- Tenth Tab -->
 <div class="tab-lock">
-  <div id="tab-10" style="display:none;">
+  <div id="tab-10">
 	<div class="rohead rh10"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_UU2.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -276,7 +244,7 @@ $(document).ready(function () {
 
 <!-- Eleventh Tab -->
 <div class="tab-lock">
-  <div id="tab-11" style="display:none;">
+  <div id="tab-11">
 	<div class="rohead rh11"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U7pt2-1.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -296,7 +264,7 @@ $(document).ready(function () {
 
 <!-- Twelfth Tab -->
 <div class="tab-lock">
-  <div id="tab-12" style="display:none;">
+  <div id="tab-12">
 	<div class="rohead rh12"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U7pt2-2.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -313,7 +281,7 @@ $(document).ready(function () {
 
 <!-- Thirteenth Tab -->
 <div class="tab-lock">
-  <div id="tab-13" style="display:none;">
+  <div id="tab-13">
 	<div class="rohead rh13"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U8.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -331,7 +299,7 @@ $(document).ready(function () {
 
 <!-- Fourteenth Tab -->
 <div class="tab-lock">
-  <div id="tab-14" style="display:none;">
+  <div id="tab-14">
 	<div class="rohead rh14"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H_rohead_U9.jpg" /></div>
         <div class="special-window">
 		<div class="storybody">
@@ -353,13 +321,14 @@ $(document).ready(function () {
 
 
 <!--Masthead-->
-<a href="index.html"><div class="masthead"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/Ultima_logo-history.png" /></div></a>
+<a href="index.html" class="masthead"><img src="images/Ultima_logo-main2.png" alt="Ultima Forever home" /></a>
 
 <!--Nav Buttons-->
 <div class="buttons">
-<div class="backward"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H-but-back.png" alt="Back" width="90" height="46" border="0" id="backward" onclick="javascript:showTab(14)"/></div>
-<div class="forward"><img src="https://web.archive.org/web/20120112085904id_/http://www.ultimaforever.com/images/H-but-next.png" alt="Next" width="90" height="46" border="0" id="forward" onclick="javascript:showTab(2)"/></div>
+<button type="button" id="backward">Previous</button>
+<button type="button" id="forward">Next</button>
 </div>
+<nav class="history-tabs" aria-label="Choose an Ultima story"></nav>
 
 
 <!--Ultima Boxes-->
@@ -380,14 +349,6 @@ $(document).ready(function () {
 			</div>
 </div><!--End Footer-->
 
-<!--IE Catch-->
-<div class="ie7">
-<div style="padding: 5px 5px; color: #DCCCB0; text-align: center;">Is this page acting strange?<br/>Try a newer browser:</div>
-<a href="http://www.google.com/chrome"><div class="chrome"></div></a>
-<a href="http://www.firefox.com"><div class="firefox"></div></a>
-<a href="http://www.apple.com/safari/download"><div class="safari"></div></a>
-<a href="http://www.opera.com/download"><div class="opera"></div></a>
-</div>
-
 </div><!--End wrap-->
 </body>
+</html>
