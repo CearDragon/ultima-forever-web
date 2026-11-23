@@ -1,0 +1,136 @@
+:root {
+  color-scheme: light;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #000 url("../images/header_bg.jpg") center top / auto 440px no-repeat;
+  color: #303030;
+  margin: 0;
+  min-width: 320px;
+}
+
+.end-header {
+  align-items: flex-start;
+  display: flex;
+  justify-content: center;
+  min-height: 360px;
+  padding: 20px 20px 0;
+}
+
+.end-header__logo {
+  display: block;
+  max-width: 100%;
+  text-align: center;
+}
+
+.end-header__logo img {
+  height: auto;
+  max-width: 100%;
+}
+
+.end-content {
+  background: #c3c3c3 url("../images/content_bg.jpg") repeat;
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 970px;
+  padding: 32px 24px 54px;
+}
+
+.farewell {
+  background: rgba(222, 222, 222, 0.94);
+  border: 1px solid #8e8e8e;
+  box-sizing: border-box;
+  font: 16px/1.65 Verdana, sans-serif;
+  margin: 0 auto;
+  max-width: 740px;
+  padding: clamp(22px, 5vw, 48px);
+}
+
+.farewell h1 {
+  color: #4a3024;
+  font: 700 clamp(22px, 3vw, 30px)/1.25 Arial, sans-serif;
+  margin: 0 0 28px;
+}
+
+.farewell p {
+  margin: 0 0 18px;
+}
+
+.farewell__signature {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.end-footer {
+  background: #000 url("../images/footer_bg.jpg") center top / auto 236px no-repeat;
+  color: #bebebe;
+  min-height: 236px;
+}
+
+.end-footer__inner {
+  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: 970px;
+  padding: 28px 20px 24px;
+  text-align: center;
+}
+
+.end-footer__inner p {
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+
+.end-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  justify-content: center;
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+.end-footer__links a {
+  color: #bebebe;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.end-footer__links a:hover,
+.end-footer__links a:focus-visible {
+  color: #fff;
+}
+
+.end-footer__logos {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+
+.end-footer__logos img {
+  height: auto;
+  max-width: 100%;
+}
+
+@media (max-width: 600px) {
+  .end-header {
+    min-height: 250px;
+    padding-top: 24px;
+  }
+
+  .end-content {
+    padding: 20px 12px 32px;
+  }
+
+  .farewell {
+    font-size: 15px;
+  }
+
+  .end-footer__inner {
+    padding-inline: 12px;
+  }
+}

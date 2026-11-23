@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ultima Forever: the Ultima IV download page</title>
 <link rel="stylesheet" href="ultima_history.css">
+<link rel="stylesheet" href="era-selector.css">
 <script type="text/javascript">
 var maxTabId = 14;
 var currTabId = 1;
@@ -43,6 +44,14 @@ document.addEventListener('DOMContentLoaded', function () {
 </head>
 
 <body>
+<nav class="era-selector" aria-label="Choose a time period">
+    <span class="era-selector__prompt">When are we?</span>
+    <ol>
+        <li><span aria-current="page">the beginning</span></li>
+        <li><a href="middle/index.html">the middle</a></li>
+        <li><a href="end/index.html">the end</a></li>
+    </ol>
+</nav>
 <div class="wrap">
 <!--UO Link-->
 <a href="http://www.uoherald.com"><div class="uolink"></div></a>

@@ -1,0 +1,80 @@
+.era-selector {
+  align-items: center;
+  background: #101821;
+  border-bottom: 1px solid #253442;
+  box-sizing: border-box;
+  color: #e6e1d3;
+  display: flex;
+  flex-wrap: wrap;
+  font: 14px/1.4 Arial, sans-serif;
+  gap: 12px 24px;
+  justify-content: center;
+  padding: 12px 20px;
+  position: relative;
+  width: 100%;
+  z-index: 20;
+}
+
+.era-selector__prompt {
+  color: #e6c46a;
+  font-weight: 700;
+}
+
+.era-selector ol {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.era-selector li {
+  margin: 0;
+  padding: 0;
+}
+
+.era-selector a,
+.era-selector span[aria-current="page"] {
+  background: transparent;
+  border: 1px solid #52616d;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #f3efe3;
+  display: inline-block;
+  font: inherit;
+  line-height: 1.3;
+  padding: 6px 12px;
+  text-decoration: none;
+}
+
+.era-selector a:hover,
+.era-selector a:focus-visible {
+  background: #263745;
+  border-color: #e6c46a;
+  color: #fff;
+}
+
+.era-selector span[aria-current="page"] {
+  background: #263745;
+  border-color: #e6c46a;
+  color: #fff;
+  font-weight: 700;
+}
+
+@media (max-width: 520px) {
+  .era-selector {
+    gap: 8px;
+    padding: 10px 8px;
+  }
+
+  .era-selector ol {
+    gap: 5px;
+  }
+
+  .era-selector a,
+  .era-selector span[aria-current="page"] {
+    padding: 6px 8px;
+  }
+}

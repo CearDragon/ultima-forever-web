@@ -4,7 +4,7 @@
   "description": "A static tribute to the Ultima series",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "dev": "browser-sync start --server --files \"index.html,ultima_history.html,*.css,*.js,images/**/*\" --no-open --no-notify --host 127.0.0.1 --port 3001",
+    "dev": "node scripts/dev.mjs",
     "start": "npm run build && http-server dist -p 3000 -c-1",
     "test": "node --test"
   },
