@@ -133,4 +133,14 @@ body {
   .end-footer__inner {
     padding-inline: 12px;
   }
+
+  .end-footer__links {
+    gap: 4px 12px;
+  }
+
+  .end-footer__links a {
+    align-items: center;
+    display: inline-flex;
+    min-height: 40px;
+  }
 }

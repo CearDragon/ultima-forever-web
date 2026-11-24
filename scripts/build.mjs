@@ -41,6 +41,10 @@ function removeDivsByClass(content, className) {
   }
 }
 
+function timelineEmbed(profile, author) {
+  return `<div class="timeline-slot"><a class="twitter-timeline" data-width="280" data-height="360" href="${profile}">Posts by ${author}</a></div>`;
+}
+
 function restoreArchivePage(content, file) {
   const suffix = file.match(/-(de|fr|jp|ko|ru)\.html$/)?.[1];
   const languageSuffix = suffix ? `-${suffix}` : '';
@@ -76,7 +80,7 @@ function restoreArchivePage(content, file) {
   );
   content = content.replace(
     /<div class="tweet"><\/div>/i,
-    '<a class="twitter-timeline" data-height="360" href="https://x.com/UltimaForever?ref_src=twsrc%5Etfw">Posts by UltimaForever</a>',
+    timelineEmbed('https://x.com/UltimaForever?ref_src=twsrc%5Etfw', 'UltimaForever'),
   );
   if (!isAbout) {
     const facebookPanel = findDivRange(content, 'contentsocialend');
@@ -84,7 +88,7 @@ function restoreArchivePage(content, file) {
       content = content.slice(0, facebookPanel.start)
         + '<div class="contentsocialend">\n'
         + '<div class="header">X</div>\n'
-        + '<a class="twitter-timeline" data-height="360" href="https://x.com/CearDragon?ref_src=twsrc%5Etfw">Posts by CearDragon</a>\n'
+        + timelineEmbed('https://x.com/CearDragon?ref_src=twsrc%5Etfw', 'CearDragon') + '\n'
         + '<script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>\n'
         + '</div>'
         + content.slice(facebookPanel.end);
@@ -100,7 +104,14 @@ function restoreArchivePage(content, file) {
       '<button class="slider-control slider-control--next" type="button" aria-label="Next screenshots"><img src="images/slider-arrow-right.png" alt="" /></button>',
     );
   if (!isAbout && languageSuffix) content = content.replace(/href="about\.html"/g, `href="${aboutPage}"`);
-  content = content.replace(/<a class="language"/g, '<a class="language" tabindex="0"');
+  const languageMenu = findDivRange(content, 'lang_menu');
+  if (languageMenu) {
+    const disclosure = content.slice(languageMenu.start, languageMenu.end)
+      .replace('<div class="lang_menu">', '<details class="lang_menu">')
+      .replace(/<a class="language">([^<]+)<\/a>/i, '<summary>$1</summary>')
+      .replace(/<\/div>$/i, '</details>');
+    content = content.slice(0, languageMenu.start) + disclosure + content.slice(languageMenu.end);
+  }
   content = content.replace(/<html\b[^>]*>/i, `<html lang="${suffix === 'jp' ? 'ja' : suffix ?? 'en'}">`);
   if (!/name=["']viewport["']/i.test(content)) {
     content = content.replace(/<meta[^>]+charset[^>]*>/i, '$&\n<meta name="viewport" content="width=device-width, initial-scale=1">');

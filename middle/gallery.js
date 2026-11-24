@@ -18,8 +18,7 @@ if (typeof document !== 'undefined') {
       const items = [...(carousel?.querySelectorAll(':scope > a') ?? [])];
       if (!carousel || !items.length) return;
 
-      const itemWidth = items[0].getBoundingClientRect().width;
-      const visibleCount = itemWidth ? Math.max(1, Math.floor(carousel.clientWidth / itemWidth)) : 1;
+      const visibleCount = Number(getComputedStyle(carousel).getPropertyValue('--gallery-visible-count')) || 1;
       const direction = control.classList.contains('slider-control--next') ? 1 : -1;
       galleryStart = nextGalleryStart(galleryStart, direction, items.length, visibleCount);
       carousel.scrollTo({

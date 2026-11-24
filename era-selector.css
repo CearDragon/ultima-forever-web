@@ -69,12 +69,19 @@
     padding: 10px 8px;
   }
 
+  .era-selector__prompt {
+    flex-basis: 100%;
+    text-align: center;
+  }
+
   .era-selector ol {
     gap: 5px;
+    justify-content: center;
   }
 
   .era-selector a,
   .era-selector span[aria-current="page"] {
+    min-height: 40px;
     padding: 6px 8px;
   }
 }

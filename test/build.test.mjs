@@ -7,6 +7,7 @@ import { dirname, join, normalize } from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const output = join(root, 'dist');
+const mobileViewport = /<meta name="viewport" content="width=device-width, initial-scale=1">/i;
 
 async function assertShippedImage(reference) {
   assert.match(reference, /^images\/[^?#]+$/, `Expected a local image path, got ${reference}`);
@@ -54,6 +55,7 @@ test('build creates a deployable static site with local image assets', async () 
   for (const page of ['index.html', 'ultima_history.html']) {
     const html = await readFile(join(output, page), 'utf8');
     assert.match(html, /<!DOCTYPE html>/i);
+    assert.match(html, mobileViewport, page);
     assert.doesNotMatch(html, /browser-sync-client/i);
     assert.match(html, /When are we\?/);
     assert.match(html, /href="middle\/index\.html"/);
@@ -62,8 +64,18 @@ test('build creates a deployable static site with local image assets', async () 
     assert.doesNotMatch(html, /<button[^>]*disabled[^>]*>the end<\/button>/);
   }
   const beginning = await readFile(join(output, 'index.html'), 'utf8');
+  assert.equal([...beginning.matchAll(/<span class="lineup-mobile">/g)].length, 14);
+  const beginningStyles = await readFile(join(output, 'home-base.css'), 'utf8');
+  assert.ok(beginning.indexOf('href="home-base.css"') > beginning.lastIndexOf('</style>'));
+  assert.match(beginningStyles, /@media\s*\(max-width:\s*1100px\)/i);
+  assert.match(beginningStyles, /#ultima-lineup\s*\{[^}]*grid-template-columns/i);
+  assert.match(beginningStyles, /#Twitter-link\s*,?[^}]*display:\s*none/i);
   assert.ok(beginning.indexOf('id="UOlink"') < beginning.indexOf('<nav class="era-selector"'));
   assert.ok(beginning.indexOf('<nav class="era-selector"') < beginning.indexOf('<div id="master">'));
+  assert.match(beginning, /#gnav\s*\{[^}]*position\s*:\s*relative/i);
+  assert.match(beginning, /#gnav \.content\s*\{[^}]*padding\s*:\s*4px 0;/i);
+  assert.match(beginning, /#UOlink\s*\{[^}]*position\s*:\s*relative/i);
+  assert.match(beginning, /#UOlink img\s*\{[^}]*max-width\s*:\s*100%[^}]*height\s*:\s*auto/i);
   assert.ok((await readdir(join(output, 'images'))).length > 0);
 
   const files = ['index.html', 'ultima_history.html', 'home-base.css', 'UltimaPortal_Main.css', 'ultima_history.css', 'era-selector.css'];
@@ -72,6 +84,10 @@ test('build creates a deployable static site with local image assets', async () 
     assert.doesNotMatch(activeContent, /https?:\/\/web\.archive\.org/i, `Found a Wayback URL in ${file}`);
     for (const reference of references) await assertShippedImage(reference);
   }
+  const historyStyles = await readFile(join(output, 'ultima_history.css'), 'utf8');
+  assert.match(historyStyles, /\.history-tabs button\s*\{[^}]*min-height:\s*44px/i);
+  const eraStyles = await readFile(join(output, 'era-selector.css'), 'utf8');
+  assert.match(eraStyles, /\.era-selector__prompt\s*\{[^}]*flex-basis:\s*100%/i);
 
   const middleFiles = await readdir(join(output, 'middle'));
   assert.deepEqual(middleFiles.filter((file) => file.endsWith('.html')).sort(), [
@@ -80,11 +96,15 @@ test('build creates a deployable static site with local image assets', async () 
   ].sort());
   for (const page of middleFiles.filter((file) => file.endsWith('.html'))) {
     const html = await readFile(join(output, 'middle', page), 'utf8');
+    assert.match(html, mobileViewport, page);
     assert.match(html, /When are we\?/);
     assert.match(html, /href="\.\.\/index\.html"/);
     assert.match(html, /href="\.\.\/end\/index\.html">the end<\/a>/);
     assert.match(html, /aria-current="page">the middle/);
     assert.doesNotMatch(html, /<button[^>]*disabled[^>]*>the end<\/button>/);
+    const languageMenu = html.match(/<details class="lang_menu">\s*<summary>[^<]+<\/summary>([\s\S]*?)<\/details>/);
+    assert.ok(languageMenu, `Missing language disclosure on ${page}`);
+    assert.equal([...languageMenu[1].matchAll(/\bhreflang=/g)].length, 6);
     assert.match(html, /<summary>Forums<\/summary>/);
     assert.match(html, /href="#" data-placeholder-link[^>]*>Archive<\/a>/);
     assert.match(html, /href="#" data-placeholder-link[^>]*>Discord<\/a>/);
@@ -98,9 +118,9 @@ test('build creates a deployable static site with local image assets', async () 
     assert.doesNotMatch(html, /<script\b(?![^>]*src="(?:gallery\.js|https:\/\/platform\.x\.com\/widgets\.js)")/i);
     if (!page.startsWith('about')) {
       assert.match(html, /jMfBczn7pH8/);
-      assert.match(html, /<div class="header">Twitter<\/div>[\s\S]*?<a class="twitter-timeline" data-height="360" href="https:\/\/x\.com\/UltimaForever\?ref_src=twsrc%5Etfw">Posts by UltimaForever<\/a>/);
+      assert.match(html, /<div class="header">Twitter<\/div>[\s\S]*?<div class="timeline-slot">\s*<a class="twitter-timeline" data-width="280" data-height="360" href="https:\/\/x\.com\/UltimaForever\?ref_src=twsrc%5Etfw">Posts by UltimaForever<\/a>\s*<\/div>/);
       assert.match(html, /<div class="header">X<\/div>/);
-      assert.match(html, /<a class="twitter-timeline" data-height="360" href="https:\/\/x\.com\/CearDragon\?ref_src=twsrc%5Etfw">Posts by CearDragon<\/a>/);
+      assert.match(html, /<div class="timeline-slot">\s*<a class="twitter-timeline" data-width="280" data-height="360" href="https:\/\/x\.com\/CearDragon\?ref_src=twsrc%5Etfw">Posts by CearDragon<\/a>\s*<\/div>/);
       assert.match(html, /<script async src="https:\/\/platform\.x\.com\/widgets\.js" charset="utf-8"><\/script>/);
       assert.equal([...html.matchAll(/platform\.x\.com\/widgets\.js/g)].length, 1);
       assert.doesNotMatch(html, /syndication\.twitter\.com|<iframe[^>]+community-feed__frame|<div class="header">Facebook<\/div>|class="fb-like-box"|facebook\.com\/plugins\/page\.php/i);
@@ -118,6 +138,16 @@ test('build creates a deployable static site with local image assets', async () 
 
   for (const file of ['css/stylesheet.css', 'gallery.js']) {
     const content = await readFile(join(output, 'middle', file), 'utf8');
+    if (file === 'css/stylesheet.css') {
+      assert.match(content, /#contentbody \.timeline-slot\s*\{[^}]*height:\s*360px[^}]*max-width:\s*280px[^}]*overflow:\s*hidden[^}]*width:\s*100%/i);
+      assert.match(content, /#contentbody \.timeline-slot > \.twitter-timeline-rendered\s*\{[^}]*height:\s*360px\s*!important[^}]*max-width:\s*100%[^}]*width:\s*100%\s*!important/i);
+      assert.match(content, /#contentbody \.timeline-slot iframe\[title="Twitter Timeline"\]\s*\{[^}]*height:\s*360px\s*!important[^}]*max-width:\s*100%[^}]*position:\s*relative\s*!important[^}]*width:\s*100%\s*!important/i);
+      assert.match(content, /@media\s*\(max-width:\s*1010px\)[\s\S]*?\.abouttext1-de[\s\S]*?width:\s*100%/i);
+      assert.match(content, /#contentbody \.aboutbox,[\s\S]*?#contentbody \.aboutbox-de\s*\{[^}]*height:\s*auto/i);
+      assert.match(content, /\.charboximg,[\s\S]*?\.virtueboximg\s*\{[^}]*float:\s*none[^}]*width:\s*100%/i);
+      assert.match(content, /#headerabout \.navigation > ul,[\s\S]*?#headerabout \.social ul/);
+      assert.match(content, /\.navigation \.forums-menu details > ul\s*\{[^}]*right:\s*0/i);
+    }
     assert.doesNotMatch(content, /web\.archive\.org|jquery|google-analytics/i);
     for (const match of content.matchAll(/url\(\s*(?:'([^']+)'|"([^"]+)"|([^\s)]+))\s*\)/gi)) {
       await assertShippedReference(join(output, 'middle', file), match[1] ?? match[2] ?? match[3]);
@@ -129,6 +159,7 @@ test('build creates a deployable static site with local image assets', async () 
   const endFiles = await readdir(join(output, 'end'));
   assert.deepEqual(endFiles.sort(), ['css', 'images', 'index.html'].sort());
   const endPage = await readFile(join(output, 'end', 'index.html'), 'utf8');
+  assert.match(endPage, mobileViewport, 'end/index.html');
   assert.match(endPage, /When are we\?/);
   assert.match(endPage, /href="\.\.\/index\.html">the beginning<\/a>/);
   assert.match(endPage, /href="\.\.\/middle\/index\.html">the middle<\/a>/);
@@ -146,6 +177,7 @@ test('build creates a deployable static site with local image assets', async () 
     await assertShippedReference(join(output, 'end', 'index.html'), match[1]);
   }
   const endStylesheet = await readFile(join(output, 'end', 'css', 'stylesheet.css'), 'utf8');
+  assert.match(endStylesheet, /\.end-footer__links a\s*\{[^}]*min-height:\s*40px/i);
   assert.doesNotMatch(endStylesheet, /web\.archive\.org/);
   for (const match of endStylesheet.matchAll(/url\(\s*(?:'([^']+)'|"([^"]+)"|([^\s)]+))\s*\)/gi)) {
     await assertShippedReference(join(output, 'end', 'css', 'stylesheet.css'), match[1] ?? match[2] ?? match[3]);
@@ -161,5 +193,9 @@ test('gallery navigation advances in both directions and wraps at either end', a
   assert.equal(gallery.nextGalleryStart(4, 1, 10, 6), 0);
   assert.equal(gallery.nextGalleryStart(0, -1, 10, 6), 4);
   assert.equal(gallery.nextGalleryStart(4, -1, 10, 6), 0);
+  assert.equal(gallery.nextGalleryStart(0, 1, 10, 2), 2);
+  assert.equal(gallery.nextGalleryStart(6, 1, 10, 2), 8);
+  assert.equal(gallery.nextGalleryStart(8, 1, 10, 2), 0);
+  assert.equal(gallery.nextGalleryStart(0, -1, 10, 2), 8);
   assert.equal(gallery.nextGalleryStart(0, 1, 4, 6), 0);
 });

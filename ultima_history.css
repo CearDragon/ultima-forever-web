@@ -48,4 +48,10 @@ a { color: #e0c58c; }
     .wrap { padding: .75rem; }
     .main-content { padding: 6rem 1rem 1.5rem; background-size: auto 120px; }
     .storyHeadline { font-size: 1.3rem; }
+    .main-content img, .main-content table { max-width: 100%; }
+    .storybody { overflow-wrap: anywhere; }
+    .buttons { flex-wrap: wrap; }
+    .buttons button { min-height: 44px; min-width: 44px; }
+    .history-tabs button { flex: 1 1 7.5rem; min-height: 44px; }
+    .footer { padding-top: 5rem; }
 }
