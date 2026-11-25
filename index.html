@@ -689,7 +689,7 @@ a:active {
 <div id="gnav">
     <div class="content">
     <div id="UOlink"><a href="http://www.uo.com/"><img src="images/UO_Link-gnav.png" alt="Play Ultima Online!" width="335" height="24" border="0" /></a></div>
-    <div id="Twitter-link"><a href="http://twitter.com/ultimaforever"><img src="images/twitter-gnav.png" alt="Twitter!" width="27" height="27" border="0" /></a></div>  
+    <div id="Twitter-link"><a href="https://x.com/CearDragon" target="_blank" rel="noopener noreferrer" aria-label="Follow CearDragon on X"><img src="images/twitter-gnav.png" alt="" width="27" height="27" border="0" /></a></div>
 </div>
 </div>
 
@@ -705,7 +705,7 @@ a:active {
 <div id="master">
 
 <div id="mainlogo"><img src="images/Ultima_logo-main2.png" width="389" height="163" alt="Ultima!" /></div>
-<div id="Twitter-top"><a href="https://x.com/CearDragon"><img src="images/twitter-top.png" alt="Twitter!" width="123" height="52" border="0" /></a></div>
+<div id="Twitter-top"><a href="https://x.com/CearDragon" target="_blank" rel="noopener noreferrer" aria-label="Follow CearDragon on X"><img src="images/twitter-top.png" alt="" width="123" height="52" border="0" /></a><a class="discord-link" href="https://discord.com/channels/179598067379470336/1559298782099800115" target="_blank" rel="noopener noreferrer" aria-label="Join Ultima Forever on Discord"><img src="images/discord.svg" alt="" width="40" height="40" /></a></div>
 
 
 
@@ -765,8 +765,8 @@ the world of Ultima. They have braved perilous dungeons, faced off against fears
     <table width="683" height="10">
         <tr>
         <td width="683"  align="left">
-        <p class="storyBody">In 1997 Ultima broke new ground once again. The launch of <a href="http://www.uo.com/">Ultima Online</a> gave the gaming world its first graphical Massively Multiplayer Online Role Playing Game. Since this historic launch, Ultima Online has run continuosly for 14 years! This is an achievement no other MMORPG has even approached.</p>
-        <p class="storyBody">In recognition of its impact on the gaming industry, Ultima Online was recently inducted into the Game Developer's Conference Online Awards Hall of Fame. <a href="https://uo.com/getting-started/">Click here to play it FREE for 14 Days!</a></p>
+        <p class="storyBody">In 1997 Ultima broke new ground once again. The launch of <a href="http://www.uo.com/">Ultima Online</a> gave the gaming world its first graphical Massively Multiplayer Online Role Playing Game. Since this historic launch, Ultima Online has run continuously for <span id="uo-years-2">29</span> years! This is an achievement no other MMORPG has even approached.</p>
+        <p class="storyBody">In recognition of its impact on the gaming industry, Ultima Online was recently inducted into the Game Developer's Conference Online Awards Hall of Fame. <a href="https://uo.com/getting-started/">Click here to play it FREE!</a></p>
         </td>
         </tr>
     </table>
@@ -836,6 +836,7 @@ function yearsSinceSept24_1997() {
 }
 
 document.getElementById('uo-years').textContent = yearsSinceSept24_1997();
+document.getElementById('uo-years-2').textContent = yearsSinceSept24_1997();
 </script>
 
 

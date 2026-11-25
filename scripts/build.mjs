@@ -48,9 +48,20 @@ function timelineEmbed(profile, author) {
 function restoreArchivePage(content, file) {
   const suffix = file.match(/-(de|fr|jp|ko|ru)\.html$/)?.[1];
   const languageSuffix = suffix ? `-${suffix}` : '';
+  const isFaq = file === 'faq.html';
   const isAbout = file.startsWith('about');
   const homePage = `index${languageSuffix}.html`;
   const aboutPage = `about${languageSuffix}.html`;
+
+  content = content.replace(
+    /<div class="navigation">[\s\S]*?<\/div>/i,
+    `<div class="navigation"><ul><li${isAbout || isFaq ? '' : ' class="active"'}>${isAbout || isFaq ? `<a href="${homePage}">Home</a>` : 'Home'}</li><li${isAbout ? ' class="active"' : ''}>${isAbout ? 'About' : `<a href="${aboutPage}">About</a>`}</li><li class="forums-menu"><details><summary>Forums</summary><ul><li><a href="https://web.archive.org/web/20140209184020/http://forums.ultimaforever.com/" target="_blank" rel="noopener noreferrer">Archive</a></li><li><a href="https://discord.com/channels/179598067379470336/1559298782099800115" target="_blank" rel="noopener noreferrer">Discord</a></li></ul></details></li><li${isFaq ? ' class="active" aria-current="page"' : ''}>${isFaq ? 'FAQ' : '<a href="faq.html">FAQ</a>'}</li></ul></div>`,
+  );
+  if (isFaq) {
+    content = content.replace(/<\/head>/i, '<link rel="stylesheet" href="../era-selector.css">\n</head>');
+    content = content.replace(/<body\b[^>]*>/i, (bodyTag) => `${bodyTag}\n${eraNavigation()}`);
+    return content;
+  }
 
   content = content.replace(/<!--[\s\S]*?-->/g, '');
   content = content.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '');
@@ -58,8 +69,12 @@ function restoreArchivePage(content, file) {
   content = removeDivsByClass(content, 'fblike');
   content = content.replace(/<div\b[^>]*id=["']fb-root["'][^>]*>\s*<\/div>/gi, '');
   content = content.replace(
-    /<div class="navigation">[\s\S]*?<\/div>/i,
-    `<div class="navigation"><ul><li${isAbout ? '' : ' class="active"'}>${isAbout ? `<a href="${homePage}">Home</a>` : 'Home'}</li><li${isAbout ? ' class="active"' : ''}>${isAbout ? 'About' : `<a href="${aboutPage}">About</a>`}</li><li class="forums-menu"><details><summary>Forums</summary><ul><li><a href="#" data-placeholder-link aria-disabled="true">Archive</a></li><li><a href="#" data-placeholder-link aria-disabled="true">Discord</a></li></ul></details></li><li><a href="#" data-placeholder-link aria-disabled="true">FAQ</a></li></ul></div>`,
+    /href="https:\/\/www\.facebook\.com\/UltimaForever(?:\?fref=ts)?"/gi,
+    'href="https://www.facebook.com/search/top?q=UltimaForever"',
+  );
+  content = content.replace(
+    /(<div class="social">[\s\S]*?<ul>[\s\S]*?)(<\/ul>)/i,
+    '$1<li class="discord-link"><a href="https://discord.com/channels/179598067379470336/1559298782099800115" target="_blank" rel="noopener noreferrer" aria-label="Join Ultima Forever on Discord"><img src="images/discord.svg" alt="" width="55" height="55" /></a></li><li class="x-link"><a href="https://x.com/CearDragon" target="_blank" rel="noopener noreferrer" aria-label="Follow CearDragon on X"><img src="images/x.svg" alt="" width="55" height="55" /></a></li>$2',
   );
   content = content.replace(/href="index--524f344955\.html"/g, `href="${homePage}"`);
   content = content.replace(
@@ -83,6 +98,10 @@ function restoreArchivePage(content, file) {
     timelineEmbed('https://x.com/UltimaForever?ref_src=twsrc%5Etfw', 'UltimaForever'),
   );
   if (!isAbout) {
+    content = content.replace(
+      /(<div class="socialicons">[\s\S]*?)(<\/div>)/i,
+      '$1<a class="discord-link" href="https://discord.com/channels/179598067379470336/1559298782099800115" target="_blank" rel="noopener noreferrer" aria-label="Join Ultima Forever on Discord"><img src="images/discord.svg" alt="" width="55" height="55" /></a><a class="x-link" href="https://x.com/CearDragon" target="_blank" rel="noopener noreferrer" aria-label="Follow CearDragon on X"><img src="images/x.svg" alt="" width="55" height="55" /></a>$2',
+    );
     const facebookPanel = findDivRange(content, 'contentsocialend');
     if (facebookPanel) {
       content = content.slice(0, facebookPanel.start)
@@ -131,6 +150,8 @@ await mkdir(output, { recursive: true });
 for (const file of files) {
   await cp(join(root, file), join(output, file), { recursive: true });
 }
+await cp(join(root, 'images', 'discord.svg'), join(output, 'middle', 'images', 'discord.svg'));
+await cp(join(root, 'images', 'x.svg'), join(output, 'middle', 'images', 'x.svg'));
 for (const file of await readdir(join(output, 'middle'))) {
   if (!file.endsWith('.html')) continue;
   const page = join(output, 'middle', file);

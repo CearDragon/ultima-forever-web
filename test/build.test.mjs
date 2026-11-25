@@ -70,6 +70,11 @@ test('build creates a deployable static site with local image assets', async () 
   assert.match(beginningStyles, /@media\s*\(max-width:\s*1100px\)/i);
   assert.match(beginningStyles, /#ultima-lineup\s*\{[^}]*grid-template-columns/i);
   assert.match(beginningStyles, /#Twitter-link\s*,?[^}]*display:\s*none/i);
+  assert.match(beginningStyles, /#Twitter-top\s*\{[^}]*flex-direction:\s*column/i);
+  assert.match(beginningStyles, /#Twitter-top\s*\{[^}]*flex-direction:\s*row/i);
+  assert.match(beginning, /<div id="Twitter-link"><a href="https:\/\/x\.com\/CearDragon" target="_blank" rel="noopener noreferrer" aria-label="Follow CearDragon on X"><img src="images\/twitter-gnav\.png" alt=""/);
+  assert.match(beginning, /<div id="Twitter-top"><a href="https:\/\/x\.com\/CearDragon" target="_blank" rel="noopener noreferrer" aria-label="Follow CearDragon on X"><img src="images\/twitter-top\.png" alt=""/);
+  assert.match(beginning, /<a class="discord-link" href="https:\/\/discord\.com\/channels\/179598067379470336\/1559298782099800115"[^>]*aria-label="Join Ultima Forever on Discord"><img src="images\/discord\.svg" alt=""/);
   assert.ok(beginning.indexOf('id="UOlink"') < beginning.indexOf('<nav class="era-selector"'));
   assert.ok(beginning.indexOf('<nav class="era-selector"') < beginning.indexOf('<div id="master">'));
   assert.match(beginning, /#gnav\s*\{[^}]*position\s*:\s*relative/i);
@@ -92,9 +97,9 @@ test('build creates a deployable static site with local image assets', async () 
   const middleFiles = await readdir(join(output, 'middle'));
   assert.deepEqual(middleFiles.filter((file) => file.endsWith('.html')).sort(), [
     'about-de.html', 'about-fr.html', 'about-jp.html', 'about-ko.html', 'about-ru.html', 'about.html',
-    'index-de.html', 'index-fr.html', 'index-jp.html', 'index-ko.html', 'index-ru.html', 'index.html',
+    'faq.html', 'index-de.html', 'index-fr.html', 'index-jp.html', 'index-ko.html', 'index-ru.html', 'index.html',
   ].sort());
-  for (const page of middleFiles.filter((file) => file.endsWith('.html'))) {
+  for (const page of middleFiles.filter((file) => file.endsWith('.html') && file !== 'faq.html')) {
     const html = await readFile(join(output, 'middle', page), 'utf8');
     assert.match(html, mobileViewport, page);
     assert.match(html, /When are we\?/);
@@ -105,21 +110,36 @@ test('build creates a deployable static site with local image assets', async () 
     const languageMenu = html.match(/<details class="lang_menu">\s*<summary>[^<]+<\/summary>([\s\S]*?)<\/details>/);
     assert.ok(languageMenu, `Missing language disclosure on ${page}`);
     assert.equal([...languageMenu[1].matchAll(/\bhreflang=/g)].length, 6);
-    assert.match(html, /<summary>Forums<\/summary>/);
-    assert.match(html, /href="#" data-placeholder-link[^>]*>Archive<\/a>/);
-    assert.match(html, /href="#" data-placeholder-link[^>]*>Discord<\/a>/);
-    assert.match(html, /href="#" data-placeholder-link[^>]*>FAQ<\/a>/);
+    const headerSocial = html.match(/<div class="social">[\s\S]*?<ul>([\s\S]*?)<\/ul>/);
+    assert.ok(headerSocial, `Missing header social links on ${page}`);
+    assert.equal([...headerSocial[1].matchAll(/<li\b/g)].length, 6, `Expected six header social icons on ${page}`);
+    const forumsMenu = html.match(/<li class="forums-menu"><details><summary>Forums<\/summary><ul>([\s\S]*?)<\/ul><\/details><\/li>/);
+    assert.ok(forumsMenu, `Missing Forums dropdown on ${page}`);
+    const forumArchiveLink = '<a href="https://web.archive.org/web/20140209184020/http://forums.ultimaforever.com/" target="_blank" rel="noopener noreferrer">Archive</a>';
+    assert.ok(forumsMenu[1].includes(forumArchiveLink), `Missing Forum Archive link on ${page}`);
+    assert.match(forumsMenu[1], /href="https:\/\/discord\.com\/channels\/179598067379470336\/1559298782099800115" target="_blank" rel="noopener noreferrer">Discord<\/a>/);
+    assert.match(html, /href="faq\.html">FAQ<\/a>/);
+    assert.match(html, /<li class="discord-link"><a href="https:\/\/discord\.com\/channels\/179598067379470336\/1559298782099800115"[^>]*aria-label="Join Ultima Forever on Discord"><img src="images\/discord\.svg" alt="" width="55" height="55" \/><\/a><\/li>/);
+    assert.match(html, /<li class="x-link"><a href="https:\/\/x\.com\/CearDragon" target="_blank" rel="noopener noreferrer" aria-label="Follow CearDragon on X"><img src="images\/x\.svg" alt="" width="55" height="55" \/><\/a><\/li>/);
     assert.match(html, /images\/appbadges\/app_[^"']+\.png/);
     assert.match(html, /https:\/\/apps\.apple\.com\/us\/app\/ultima-forever-quest-for-the-avatar\/id591550134/);
     const youtubeSocialLinks = [...html.matchAll(/<a href="([^"]+)"[^>]*>\s*<img[^>]*icon_social_youtube_(?:large|small)\.png/gi)];
     assert.ok(youtubeSocialLinks.length > 0);
     assert.ok(youtubeSocialLinks.every(([, href]) => href === 'https://www.youtube.com/playlist?list=PLEhw1ePxp4uM'));
-    assert.doesNotMatch(html, /web\.archive\.org|google-analytics|platform\.twitter|connect\.facebook|jquery|forums\.ultimaforever/i);
+    const facebookSocialLinks = [...html.matchAll(/<a href="([^"]+)"[^>]*>\s*<img[^>]*icon_social_fb_(?:large|small)\.png/gi)];
+    assert.ok(facebookSocialLinks.length > 0);
+    assert.ok(facebookSocialLinks.every(([, href]) => href === 'https://www.facebook.com/search/top?q=UltimaForever'));
+    assert.doesNotMatch(html.replace(forumArchiveLink, ''), /web\.archive\.org|google-analytics|platform\.twitter|connect\.facebook|jquery|forums\.ultimaforever/i);
     assert.doesNotMatch(html, /<script\b(?![^>]*src="(?:gallery\.js|https:\/\/platform\.x\.com\/widgets\.js)")/i);
     if (!page.startsWith('about')) {
+      const communitySocial = html.match(/<div class="socialicons">([\s\S]*?)<\/div>/);
+      assert.ok(communitySocial, `Missing Community social links on ${page}`);
+      assert.equal([...communitySocial[1].matchAll(/<a\b/g)].length, 6, `Expected six Community social icons on ${page}`);
       assert.match(html, /jMfBczn7pH8/);
       assert.match(html, /<div class="header">Twitter<\/div>[\s\S]*?<div class="timeline-slot">\s*<a class="twitter-timeline" data-width="280" data-height="360" href="https:\/\/x\.com\/UltimaForever\?ref_src=twsrc%5Etfw">Posts by UltimaForever<\/a>\s*<\/div>/);
       assert.match(html, /<div class="header">X<\/div>/);
+      assert.match(html, /<div class="socialicons">[\s\S]*?<a class="discord-link" href="https:\/\/discord\.com\/channels\/179598067379470336\/1559298782099800115"[^>]*aria-label="Join Ultima Forever on Discord"><img src="images\/discord\.svg" alt="" width="55" height="55" \/><\/a>/);
+      assert.match(html, /<a class="x-link" href="https:\/\/x\.com\/CearDragon" target="_blank" rel="noopener noreferrer" aria-label="Follow CearDragon on X"><img src="images\/x\.svg" alt="" width="55" height="55" \/><\/a>/);
       assert.match(html, /<div class="timeline-slot">\s*<a class="twitter-timeline" data-width="280" data-height="360" href="https:\/\/x\.com\/CearDragon\?ref_src=twsrc%5Etfw">Posts by CearDragon<\/a>\s*<\/div>/);
       assert.match(html, /<script async src="https:\/\/platform\.x\.com\/widgets\.js" charset="utf-8"><\/script>/);
       assert.equal([...html.matchAll(/platform\.x\.com\/widgets\.js/g)].length, 1);
@@ -127,13 +147,36 @@ test('build creates a deployable static site with local image assets', async () 
       assert.match(html, /slider-control--previous/);
       assert.match(html, /slider-control--next/);
       assert.match(html, /https:\/\/twitter\.com\/UltimaForever/);
-      assert.match(html, /https:\/\/www\.facebook\.com\/UltimaForever/);
+      assert.match(html, /href="https:\/\/www\.facebook\.com\/search\/top\?q=UltimaForever"/);
     } else {
       assert.doesNotMatch(html, /twitter-timeline|platform\.x\.com\/widgets\.js/);
     }
     for (const match of html.matchAll(/(?:src|href)=["']([^"']+)["']/gi)) {
       await assertShippedReference(join(output, 'middle', page), match[1]);
     }
+  }
+
+  const faq = await readFile(join(output, 'middle', 'faq.html'), 'utf8');
+  assert.match(faq, mobileViewport, 'middle/faq.html');
+  assert.match(faq, /<title>Ultima Forever FAQ<\/title>/);
+  assert.match(faq, /<li class="active" aria-current="page">FAQ<\/li>/);
+  assert.match(faq, /id="about"[\s\S]*id="gameplay"[\s\S]*id="support"[\s\S]*id="sources"/);
+  assert.match(faq, /The Gypsy/);
+  assert.match(faq, /servers went offline on August 29, 2014/);
+  assert.match(faq, /href="\.\.\/end\/index\.html"/);
+  assert.match(faq, /<h3>What did the different keys award\?<\/h3>/);
+  assert.match(faq, /<h3>What was the difference between Loadout and Clothing\?<\/h3>/);
+  assert.match(faq, /<h3>What connection did the game recommend\?<\/h3>/);
+  assert.doesNotMatch(faq, /data-placeholder-link|jquery|google-analytics|<script\b/i);
+  for (const source of [
+    'https://web.archive.org/web/20140530213821/http://forums.ultimaforever.com/index.php?topic=10.0',
+    'https://web.archive.org/web/20140530213823/http://forums.ultimaforever.com/index.php?topic=8.0',
+    'https://web.archive.org/web/20140530213820/http://forums.ultimaforever.com/index.php?topic=6.0',
+  ]) {
+    assert.ok(faq.includes(source), `Missing archived FAQ source: ${source}`);
+  }
+  for (const match of faq.matchAll(/(?:src|href)=["']([^"']+)["']/gi)) {
+    await assertShippedReference(join(output, 'middle', 'faq.html'), match[1]);
   }
 
   for (const file of ['css/stylesheet.css', 'gallery.js']) {
@@ -145,8 +188,20 @@ test('build creates a deployable static site with local image assets', async () 
       assert.match(content, /@media\s*\(max-width:\s*1010px\)[\s\S]*?\.abouttext1-de[\s\S]*?width:\s*100%/i);
       assert.match(content, /#contentbody \.aboutbox,[\s\S]*?#contentbody \.aboutbox-de\s*\{[^}]*height:\s*auto/i);
       assert.match(content, /\.charboximg,[\s\S]*?\.virtueboximg\s*\{[^}]*float:\s*none[^}]*width:\s*100%/i);
-      assert.match(content, /#headerabout \.navigation > ul,[\s\S]*?#headerabout \.social ul/);
+      assert.match(content, /#headerhome \.navigation > ul,\s*#headerabout \.navigation > ul\s*\{[^}]*display:\s*flex[^}]*flex-wrap:\s*wrap/i);
+      assert.match(content, /#headerhome \.social,\s*#headerabout \.social\s*\{[^}]*width:\s*300px/i);
+      assert.match(content, /#headerhome \.social img,\s*#headerabout \.social img\s*\{[^}]*height:\s*100%[^}]*max-width:\s*none/i);
+      assert.match(content, /\.social ul\s*\{[^}]*display:\s*grid[^}]*grid-template-columns:\s*repeat\(6,\s*minmax\(0,\s*1fr\)\)[^}]*gap:\s*2px/i);
+      assert.match(content, /\.social ul li\s*\{[^}]*aspect-ratio:\s*1\s*\/\s*1[^}]*min-width:\s*0/i);
+      assert.match(content, /\.social ul li img\s*\{[^}]*height:\s*100%[^}]*width:\s*100%/i);
+      assert.match(content, /\.social ul li\.discord-link img\s*\{[^}]*box-sizing:\s*border-box[^}]*padding:\s*2px/i);
+      assert.match(content, /#contentbody \.socialicons\s*\{[^}]*display:\s*grid[^}]*grid-template-columns:\s*repeat\(6,\s*minmax\(0,\s*1fr\)\)[^}]*gap:\s*2px/i);
+      assert.match(content, /#contentbody \.socialicons > a\s*\{[^}]*aspect-ratio:\s*1\s*\/\s*1[^}]*min-width:\s*0/i);
+      assert.match(content, /#contentbody \.socialicons > a img\s*\{[^}]*height:\s*100%[^}]*width:\s*100%/i);
+      assert.match(content, /#contentbody \.socialicons \.discord-link img\s*\{[^}]*box-sizing:\s*border-box[^}]*padding:\s*2px/i);
       assert.match(content, /\.navigation \.forums-menu details > ul\s*\{[^}]*right:\s*0/i);
+      assert.match(content, /#contentbody \.faq-container\s*\{[^}]*max-width:\s*970px/i);
+      assert.match(content, /#contentbody \.faq-index\s*\{[^}]*display:\s*flex[^}]*flex-wrap:\s*wrap/i);
     }
     assert.doesNotMatch(content, /web\.archive\.org|jquery|google-analytics/i);
     for (const match of content.matchAll(/url\(\s*(?:'([^']+)'|"([^"]+)"|([^\s)]+))\s*\)/gi)) {

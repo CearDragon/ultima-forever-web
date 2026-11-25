@@ -201,12 +201,28 @@ border-top:1px solid #dedede;*/
 		list-style-type: none;
 		margin: 0;
 		padding: 0;
-		display: block;
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		align-items: center;
+		box-sizing: border-box;
+		gap: 2px;
+		width: 100%;
 	}
 	.social ul li {
 		list-style-type: none;
-		display: inline;
-		height: 45px;
+		display: block;
+		aspect-ratio: 1 / 1;
+		min-width: 0;
+	}
+	.social ul li img {
+		display: block;
+		height: 100%;
+		object-fit: contain;
+		width: 100%;
+	}
+	.social ul li.discord-link img {
+		box-sizing: border-box;
+		padding: 2px;
 	}
 
 .clear {
@@ -413,6 +429,27 @@ span.rollover:hover {
 	#contentbody .socialicons {
 		padding: 30px 0 10px 0;
 		text-align: center;
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: repeat(6, minmax(0, 1fr));
+		align-items: center;
+		gap: 2px;
+		width: 100%;
+	}
+	#contentbody .socialicons > a {
+		display: block;
+		aspect-ratio: 1 / 1;
+		min-width: 0;
+	}
+	#contentbody .socialicons > a img {
+		display: block;
+		height: 100%;
+		object-fit: contain;
+		width: 100%;
+	}
+	#contentbody .socialicons .discord-link img {
+		box-sizing: border-box;
+		padding: 2px;
 	}
 #footer{
 	min-height: 236px;
@@ -878,6 +915,11 @@ span.rollover:hover {
 		width: auto;
 	}
 
+	#headerhome .social,
+	#headerabout .social {
+		width: 300px;
+	}
+
 	#headerhome .lang_menu,
 	#headerabout .lang_menu {
 		margin: 0;
@@ -897,9 +939,7 @@ span.rollover:hover {
 	}
 
 	#headerhome .navigation > ul,
-	#headerabout .navigation > ul,
-	#headerhome .social ul,
-	#headerabout .social ul {
+	#headerabout .navigation > ul {
 		align-items: center;
 		display: flex;
 		flex-wrap: wrap;
@@ -925,6 +965,8 @@ span.rollover:hover {
 	#headerhome .social img,
 	#headerabout .social img {
 		display: block;
+		height: 100%;
+		max-width: none;
 	}
 
 	#contentbody .container {
@@ -1013,18 +1055,119 @@ span.rollover:hover {
 		line-height: 1.5;
 	}
 
-	#contentbody .socialicons {
-		align-items: center;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 12px;
-		justify-content: center;
-	}
 }
 
 @media (min-width: 761px) and (max-width: 1010px) {
 	#contentbody .contentsocial,
 	#contentbody .contentsocialend {
 		width: calc((100% - 16px) / 3);
+	}
+}
+
+.faq-header {
+	background: #080808;
+	border-bottom: 1px solid #3e3e3e;
+}
+
+.faq-header__inner {
+	box-sizing: border-box;
+	margin: 0 auto;
+	max-width: 970px;
+	padding: 18px 16px;
+}
+
+.faq-header .navigation {
+	float: none;
+	height: auto;
+	margin: 0;
+	width: 100%;
+}
+
+#contentbody.faq-page {
+	box-sizing: border-box;
+	min-height: calc(100vh - 200px);
+}
+
+#contentbody .faq-container {
+	background: #dedede;
+	border: 1px solid #8e8e8e;
+	box-sizing: border-box;
+	color: #5b5b5b;
+	line-height: 1.6;
+	margin: 0 auto;
+	max-width: 970px;
+	padding: clamp(20px, 4vw, 40px);
+}
+
+#contentbody .faq-container h1,
+#contentbody .faq-container h2,
+#contentbody .faq-container h3 {
+	color: #3e3e3e;
+	font-family: "Aller", Arial, sans-serif;
+	line-height: 1.25;
+}
+
+#contentbody .faq-container h1 {
+	font-size: clamp(28px, 5vw, 38px);
+	margin: 0 0 12px;
+}
+
+#contentbody .faq-container h2 {
+	border-bottom: 1px solid #b2b2b2;
+	font-size: 26px;
+	margin: 36px 0 16px;
+	padding-bottom: 8px;
+}
+
+#contentbody .faq-container h3 {
+	font-size: 18px;
+	margin: 24px 0 8px;
+}
+
+#contentbody .faq-container a {
+	color: #155fb0;
+	text-decoration: underline;
+}
+
+#contentbody .faq-container li {
+	margin-bottom: 6px;
+}
+
+#contentbody .faq-intro {
+	font-size: 16px;
+}
+
+#contentbody .faq-history-note {
+	background: #f0e9d8;
+	border-left: 4px solid #b15654;
+	margin: 22px 0;
+	padding: 14px 18px;
+}
+
+#contentbody .faq-index {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 18px;
+	margin: 24px 0 32px;
+}
+
+#contentbody .faq-sources {
+	border-top: 1px solid #b2b2b2;
+	margin-top: 40px;
+	padding-top: 8px;
+}
+
+@media (max-width: 600px) {
+	#contentbody .faq-container h2 {
+		font-size: 22px;
+	}
+
+	#contentbody .faq-container h3 {
+		font-size: 17px;
+	}
+
+	#contentbody .faq-index {
+		flex-direction: column;
+		gap: 8px;
 	}
 }
